@@ -787,9 +787,9 @@ struct __is_widenable_from_char_array<_Source, _ECharT*, char>
     : true_type {
 
   static wstring __convert(const char* __b, const locale& __loc) {
-    const char __sentinal = char{};
+    const char __sentinel = char{};
     const char* __e = __b;
-    for (; *__e != __sentinal; ++__e)
+    for (; *__e != __sentinel; ++__e)
       ;
     return __widen_from_char_iter_pair(__b, __e, __loc);
   }
@@ -806,9 +806,9 @@ struct __is_widenable_from_char_iter <
     : true_type {
 
   static wstring __convert(_Iter __i, const locale& __loc) {
-    const char __sentinal = char{};
+    const char __sentinel = char{};
     string __s;
-    for (; *__i != __sentinal; ++__i)
+    for (; *__i != __sentinel; ++__i)
       __s.push_back(*__i);
     return __widen_from_char_iter_pair(__s.data(), __s.data() + __s.size(), __loc);
   }
@@ -825,8 +825,7 @@ template <class _Tp>
 struct __is_widenable_from_char_source<_Tp, true, false, false> : __is_widenable_from_char_string<_Tp> {};
 
 template <class _Tp>
-struct __is_widenable_from_char_source<_Tp, false, true, false> : __is_widenable_from_char_array<_Tp> {
-};
+struct __is_widenable_from_char_source<_Tp, false, true, false> : __is_widenable_from_char_array<_Tp> {};
 
 template <class _Tp>
 struct __is_widenable_from_char_source<_Tp, false, false, true> : __is_widenable_from_char_iter<_Tp> {};
