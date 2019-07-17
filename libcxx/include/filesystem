@@ -787,9 +787,8 @@ struct __is_widenable_from_char_array<_Source, _ECharT*, char>
     : true_type {
 
   static wstring __convert(const char* __b, const locale& __loc) {
-    const char __sentinel = char{};
     const char* __e = __b;
-    for (; *__e != __sentinel; ++__e)
+    for (; *__e != '\0'; ++__e)
       ;
     return __widen_from_char_iter_pair(__b, __e, __loc);
   }
@@ -806,9 +805,8 @@ struct __is_widenable_from_char_iter <
     : true_type {
 
   static wstring __convert(_Iter __i, const locale& __loc) {
-    const char __sentinel = char{};
     string __s;
-    for (; *__i != __sentinel; ++__i)
+    for (; *__i != '\0'; ++__i)
       __s.push_back(*__i);
     return __widen_from_char_iter_pair(__s.data(), __s.data() + __s.size(), __loc);
   }
