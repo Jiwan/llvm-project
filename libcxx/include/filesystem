@@ -745,8 +745,12 @@ wstring __widen_from_char_iter_pair(const char* __b, const char* __e, const loca
   return __r;
 }
 
-template <class _InputIt, 
-         class = typename enable_if<!is_constructible<const char*, _InputIt>::value>::type>
+inline _LIBCPP_INLINE_VISIBILITY
+wstring __widen_from_char_iter_pair(char* __b, char* __e, const locale& __loc) {
+  return __widen_from_char_iter_pair((const char*)__b, (const char *)__e, __loc);
+}
+
+template <class _InputIt>
 inline _LIBCPP_INLINE_VISIBILITY
 wstring __widen_from_char_iter_pair(_InputIt __b, _InputIt __e, const locale& __loc) {
   const string __s(__b, __e);
@@ -787,10 +791,8 @@ struct __is_widenable_from_char_array<_Source, _ECharT*, char>
     : true_type {
 
   static wstring __convert(const char* __b, const locale& __loc) {
-    const char* __e = __b;
-    for (; *__e != '\0'; ++__e)
-      ;
-    return __widen_from_char_iter_pair(__b, __e, __loc);
+    const string_view __sv(__b);
+    return __widen_from_char_iter_pair(__sv.data(), __sv.data() + __sv.size(), __loc);
   }
 };
 
@@ -833,9 +835,9 @@ class _LIBCPP_TYPE_VIS path {
   using _EnableIfPathable =
       typename enable_if<__is_pathable<_SourceOrIter>::value, _Tp>::type;
 
-  template <class _SourceOrIter, class _Tp = path&>
+  template <class _SourceOrIter>
   using _EnableIfWidenableFromCharSource =
-      typename enable_if<__is_widenable_from_char_source<_SourceOrIter>::value, _Tp>::type;
+      typename enable_if<__is_widenable_from_char_source<_SourceOrIter>::value>::type;
   
   template <class _Tp>
   using _SourceChar = typename __is_pathable<_Tp>::__char_type;

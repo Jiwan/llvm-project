@@ -1363,7 +1363,7 @@ __widen_using_codecvt(codecvt<_InternT, _ExternT, _StateT> const& __cvt,
     mbstate_t __mb;
     while (__nb < __ne && __r != codecvt_base::error)
     {
-        const int __sz = 32;
+        constexpr int __sz = 32;
         _InternT __buf[__sz];
         _InternT* __bn;
         const char* __nn = __nb;
@@ -1371,8 +1371,10 @@ __widen_using_codecvt(codecvt<_InternT, _ExternT, _StateT> const& __cvt,
                     __buf, __buf+__sz, __bn);
         if (__r == codecvt_base::error || __nn == __nb)
             __throw_runtime_error("locale not supported");
-        for (const _InternT* __p = __buf; __p < __bn; ++__p, ++__s)
+        for (const _InternT* __p = __buf; __p < __bn; ++__p) {
             *__s = (wchar_t)*__p;
+            ++__s;
+        }
         __nb = __nn;
     }
     return __s;

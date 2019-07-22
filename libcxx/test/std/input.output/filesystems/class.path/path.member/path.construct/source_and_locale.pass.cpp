@@ -29,7 +29,7 @@
 #include "filesystem_test_helper.hpp"
 
 template <class ...Args>
-void RunTestCase(const char* TestPath, const char* Expect, std::locale Locale, Args... args) {
+void RunTestCase(const char* TestPath, const char* Expect, const std::locale& Locale, Args... args) {
   using namespace fs;
   const char* TestPathEnd = StrEnd(TestPath);
   const std::size_t Size = TestPathEnd - TestPath;
@@ -94,7 +94,6 @@ void test_sfinae() {
     };
     using It = input_iterator<const char*, Traits>;
     static_assert(std::__is_input_iterator<It>::value, "");
-    //static_assert(std::is_constructible<path, It, std::locale>::value, "");
   }
   {
     using It = const wchar_t* const;

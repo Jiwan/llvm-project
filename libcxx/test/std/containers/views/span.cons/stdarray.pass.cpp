@@ -65,6 +65,10 @@ void checkCV()
     std::span<      volatile int,3> s3{ arr};   // a span<      volatile int> pointing at const int.
     std::span<const volatile int,3> s4{ arr};   // a span<const volatile int> pointing at int.
     }
+
+    const int arr2[] = {2, 3, 4,5};
+    //std::vector<const int, 4> arr2 = {2, 3, 4,5};
+    std::span<const int> s{arr2};
 }
 
 
